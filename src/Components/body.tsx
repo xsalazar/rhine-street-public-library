@@ -14,7 +14,7 @@ export default class Body extends React.Component {
         }}
       >
         <Typography variant="body1" align="center">
-          👋 This is a basic Typescript React template!
+          📚 More books, coming soon!
         </Typography>
       </Container>
     );
