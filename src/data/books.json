@@ -1,0 +1,138 @@
+{
+  "books": [
+    {
+      "name": "Basic Witches",
+      "authors": ["Jaya Saxena", "Jess Zimmerman"],
+      "available": false,
+      "url": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1493725542i/33589940.jpg"
+    },
+    {
+      "name": "The Princess Bride",
+      "authors": ["William Goldman"],
+      "available": false,
+      "url": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1688464956i/32604588.jpg"
+    },
+    {
+      "name": "Black Water Sister",
+      "authors": ["Zen Cho"],
+      "available": false,
+      "url": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1621882167i/58143382.jpg"
+    },
+    {
+      "name": "Night Shift",
+      "authors": ["Alex Finlay"],
+      "available": false,
+      "url": "https://m.media-amazon.com/images/I/81W35+Tj7dL._AC_UF1000,1000_QL80_.jpg"
+    },
+    {
+      "name": "Initiation",
+      "authors": ["Elizabeth B. Jenkins"],
+      "available": false,
+      "url": "https://m.media-amazon.com/images/I/51457F43AHL._AC_UF1000,1000_QL80_.jpg"
+    },
+    {
+      "name": "U.S on the moon",
+      "authors": ["U.S News & World Report"],
+      "available": true,
+      "url": "https://m.media-amazon.com/images/I/51nTl7Tzu-L._AC_UF1000,1000_QL80_.jpg"
+    },
+    {
+      "name": "The Misfits Manifesto",
+      "authors": ["Lidia Yuknavitch"],
+      "available": false,
+      "url": "https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781471162329/the-misfits-manifesto-9781471162329_hr.jpg"
+    },
+    {
+      "name": "Hawaii Story",
+      "authors": ["Lydia Liliuokalani"],
+      "available": true,
+      "url": "https://mutualpublishing.com/wp-content/uploads/2020/05/large_163_Hawaiis_Story_500.jpg"
+    },
+    {
+      "name": "The Little Prince",
+      "authors": ["Antoine De Saint-Exupery"],
+      "available": true,
+      "url": "https://cdn.kobo.com/book-images/a4213acf-d294-475f-9955-34a9a89b7cb2/1200/1200/False/the-little-prince-60.jpg"
+    },
+    {
+      "name": "The Book that Proves Time Travel Happens",
+      "authors": ["Henry Clark"],
+      "available": false,
+      "url": "https://m.media-amazon.com/images/I/71d0X19m1gL._AC_UF1000,1000_QL80_.jpg"
+    },
+    {
+      "name": "Discovering the History of your house",
+      "authors": ["Betsy J. Green"],
+      "available": true,
+      "url": "https://m.media-amazon.com/images/I/51HIeBNUnLL._AC_UF1000,1000_QL80_.jpg"
+    },
+    {
+      "name": "Earth in the Balance",
+      "authors": ["Al Gore"],
+      "available": true,
+      "url": "https://m.media-amazon.com/images/I/91y9wZuYugL._AC_UF1000,1000_QL80_.jpg"
+    },
+
+    {
+      "name": "Who is Vera Kelly?",
+      "authors": ["Rosalie Knecht"],
+      "available": true,
+      "url": "https://m.media-amazon.com/images/I/61Hf0zEi20L._AC_UF1000,1000_QL80_.jpg"
+    },
+    {
+      "name": "Internal Family Systems Therapy",
+      "authors": ["Richard C. Schwartz", "Martha Sweezy"],
+      "available": false,
+      "url": "https://m.media-amazon.com/images/I/41RWeuUvi4L._AC_UF1000,1000_QL80_.jpg"
+    },
+    {
+      "name": "2D: Visual Basics For Designers",
+      "authors": ["Robin Landa", "Rose Gonnella", "Steven Brower"],
+      "available": true,
+      "url": "https://m.media-amazon.com/images/I/51agKMhTt6L._AC_UF1000,1000_QL80_.jpg"
+    },
+
+    {
+      "name": "The Birth of the Republic",
+      "authors": ["Edmund S Morgan"],
+      "available": true,
+      "url": "https://m.media-amazon.com/images/I/4110QaTv1EL._AC_UF1000,1000_QL80_.jpg"
+    },
+    {
+      "name": "Confessions of a High School Word Nerd",
+      "authors": ["Arianne Cohen", "Colleen Kinder"],
+      "available": true,
+      "url": "https://images.penguinrandomhouse.com/cover/9780143038368"
+    },
+    {
+      "name": "The Chosen",
+      "authors": ["Taran Matharu"],
+      "available": true,
+      "url": "https://m.media-amazon.com/images/I/91slNtGooVL._AC_UF1000,1000_QL80_.jpg"
+    },
+    {
+      "name": "The Flamingos Smile",
+      "authors": ["Stephen Jay Gould"],
+      "available": true,
+      "url": "https://upload.wikimedia.org/wikipedia/en/2/2e/The_Flamingo%27s_Smile%2C_1985_edition.JPG"
+    },
+    {
+      "name": "Game of Stars",
+      "authors": ["Sayantani DasGupta"],
+      "available": true,
+      "url": "https://m.media-amazon.com/images/I/719WjgIe2dL._AC_UF1000,1000_QL80_.jpg"
+    },
+    {
+      "name": "Staff Engineer",
+      "authors": ["Will Larson"],
+      "available": true,
+      "url": "https://m.media-amazon.com/images/I/41RJt+xmh4L.jpg"
+    },
+    {
+      "name": "The Wiccan Year",
+      "authors": ["Judy Ann Nock"],
+      "available": true,
+      "url": "https://m.media-amazon.com/images/I/71GAr1D9MWL._AC_UF1000,1000_QL80_.jpg"
+    }
+  ]
+}
