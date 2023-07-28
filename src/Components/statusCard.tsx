@@ -1,4 +1,4 @@
-import { Avatar, Badge, Chip, Typography } from "@mui/material";
+import { Chip } from "@mui/material";
 import React from "react";
 import "./index.css";
 

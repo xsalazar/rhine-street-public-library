@@ -8,7 +8,7 @@ const BookCard: React.FC<{ book: Book }> = ({ book }) => {
   return (
     <Container sx={{ padding: "0.1em" }}>
       <ImageListItem sx={{ height: "220px" }} key={book.url}>
-        <img src={book.url} loading="lazy" />
+        <img src={book.url} loading="lazy" alt={book.name} />
       </ImageListItem>
 
       <Typography
