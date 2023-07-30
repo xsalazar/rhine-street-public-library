@@ -1,9 +1,4 @@
-import {
-  Container,
-  ListItemButton,
-  Typography,
-  ImageList,
-} from "@mui/material";
+import { Container, ListItemButton, ImageList } from "@mui/material";
 
 import React from "react";
 import data from "./../data/books.json";
@@ -22,19 +17,6 @@ export default class Body extends React.Component {
           flexGrow: "2",
         }}
       >
-        <Typography
-          variant="body1"
-          align="center"
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexGrow: "1",
-          }}
-        >
-          📚 More books, coming soon!
-        </Typography>
-
         <ImageList
           sx={{ width: 800, height: 500 }}
           gap={8}
@@ -43,11 +25,9 @@ export default class Body extends React.Component {
           variant="woven"
         >
           {Array.from(sortedBooks).map((book, index) => (
-            // <Grid item xs={2} sm={4} md={4} key={index}>
             <ListItemButton>
               <BookCard book={book} />
             </ListItemButton>
-            // </Grid>
           ))}
         </ImageList>
       </Container>

@@ -45,13 +45,13 @@
     {
       "name": "Hawaii Story",
       "authors": ["Lydia Liliuokalani"],
-      "available": true,
+      "available": false,
       "url": "https://mutualpublishing.com/wp-content/uploads/2020/05/large_163_Hawaiis_Story_500.jpg"
     },
     {
       "name": "The Little Prince",
       "authors": ["Antoine De Saint-Exupery"],
-      "available": true,
+      "available": false,
       "url": "https://cdn.kobo.com/book-images/a4213acf-d294-475f-9955-34a9a89b7cb2/1200/1200/False/the-little-prince-60.jpg"
     },
     {
@@ -76,7 +76,7 @@
     {
       "name": "Who is Vera Kelly?",
       "authors": ["Rosalie Knecht"],
-      "available": true,
+      "available": false,
       "url": "https://m.media-amazon.com/images/I/61Hf0zEi20L._AC_UF1000,1000_QL80_.jpg"
     },
     {
@@ -88,26 +88,26 @@
     {
       "name": "2D: Visual Basics For Designers",
       "authors": ["Robin Landa", "Rose Gonnella", "Steven Brower"],
-      "available": true,
+      "available": false,
       "url": "https://m.media-amazon.com/images/I/51agKMhTt6L._AC_UF1000,1000_QL80_.jpg"
     },
 
     {
       "name": "The Birth of the Republic",
       "authors": ["Edmund S Morgan"],
-      "available": true,
+      "available": false,
       "url": "https://m.media-amazon.com/images/I/4110QaTv1EL._AC_UF1000,1000_QL80_.jpg"
     },
     {
       "name": "Confessions of a High School Word Nerd",
       "authors": ["Arianne Cohen", "Colleen Kinder"],
-      "available": true,
+      "available": false,
       "url": "https://images.penguinrandomhouse.com/cover/9780143038368"
     },
     {
       "name": "The Chosen",
       "authors": ["Taran Matharu"],
-      "available": true,
+      "available": false,
       "url": "https://m.media-amazon.com/images/I/91slNtGooVL._AC_UF1000,1000_QL80_.jpg"
     },
     {
@@ -125,14 +125,56 @@
     {
       "name": "Staff Engineer",
       "authors": ["Will Larson"],
-      "available": true,
+      "available": false,
       "url": "https://m.media-amazon.com/images/I/41RJt+xmh4L.jpg"
     },
     {
       "name": "The Wiccan Year",
       "authors": ["Judy Ann Nock"],
-      "available": true,
+      "available": false,
       "url": "https://m.media-amazon.com/images/I/71GAr1D9MWL._AC_UF1000,1000_QL80_.jpg"
+    },
+    {
+      "name": "The Power",
+      "authors": ["Naomi Alderman"],
+      "available": true,
+      "url": "https://m.media-amazon.com/images/I/81siXD4WNiL._AC_UF1000,1000_QL80_.jpg"
+    },
+    {
+      "name": "Book Lovers",
+      "authors": ["Emily Henry"],
+      "available": true,
+      "url": "https://m.media-amazon.com/images/P/0593334833.01._SCLZZZZZZZ_SX500_.jpg"
+    },
+    {
+      "name": "Artemis Fowl",
+      "authors": ["Eoin Colfer"],
+      "available": true,
+      "url": "https://i.ebayimg.com/images/g/Up0AAOSwPLhfN88z/s-l1600.jpg"
+    },
+    {
+      "name": "Midnight In Europe",
+      "authors": ["Alan Furst"],
+      "available": true,
+      "url": "https://m.media-amazon.com/images/I/91SLkwjc29L._AC_UF1000,1000_QL80_.jpg"
+    },
+    {
+      "name": "The Incarnations",
+      "authors": ["Susan Barker"],
+      "available": true,
+      "url": "https://media.npr.org/assets/bakertaylor/covers/t/the-incarnations/9781501106781_custom-c27fe5848cb452ca4ed8aaf6f00a9abf6205ad59-s300-c85.jpg"
+    },
+    {
+      "name": "Ready Player One",
+      "authors": ["Ernest Cline"],
+      "available": true,
+      "url": "https://m.media-amazon.com/images/I/9193hRad9yL.jpg"
+    },
+    {
+      "name": "A Short History of Nearly Everything",
+      "authors": ["Bill Bryson"],
+      "available": true,
+      "url": "https://m.media-amazon.com/images/I/81oEGeRXNtL._AC_UF1000,1000_QL80_.jpg"
     }
   ]
 }
