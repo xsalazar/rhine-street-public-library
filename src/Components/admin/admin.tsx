@@ -20,14 +20,6 @@ import { InfoIcon } from "@primer/octicons-react";
 
 interface AdminProps {}
 
-// interface AdminState {
-//   apiKey: string;
-//   books: Array<Book>;
-//   hasError: boolean;
-//   isSaving: boolean;
-//   showApiKey: boolean;
-// }
-
 const Admin: React.FC<AdminProps> = ({}) => {
   const [apiKey, setApiKey] = useState("");
   const [books, setBooks] = useState([] as Book[]);
@@ -73,7 +65,6 @@ const Admin: React.FC<AdminProps> = ({}) => {
       const result = await axios.get(
         `https://backend.rhinestreetpubliclibrary.com/`
       );
-      console.log("tsk", result, result.data);
       setBooks(result.data.data);
     };
     fetchData();
