@@ -23,7 +23,7 @@ export default class Body extends React.Component<BodyProps, BodyState> {
     ).data;
 
     this.setState({
-      books: result.books,
+      books: result.data,
     });
   }
 
