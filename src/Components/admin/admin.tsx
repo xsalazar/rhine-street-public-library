@@ -20,7 +20,7 @@ import { InfoIcon } from "@primer/octicons-react";
 
 interface AdminProps {}
 
-const Admin: React.FC<AdminProps> = ({}) => {
+const Admin: React.FC<AdminProps> = () => {
   const [apiKey, setApiKey] = useState("");
   const [books, setBooks] = useState([] as Book[]);
   const [hasError, setHasError] = useState(false);
