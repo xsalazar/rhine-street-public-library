@@ -13,12 +13,21 @@ import {
   ImageList,
   ImageListItem,
   ImageListItemBar,
+  Button,
 } from "@mui/material";
+
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Close, Save, Visibility, VisibilityOff } from "@mui/icons-material";
-import { InfoIcon } from "@primer/octicons-react";
+import AdminBookCard from "./adminBookCard";
 
 interface AdminProps {}
+
+const emptyBook = {
+  name: "",
+  authors: [],
+  available: false,
+  url: "",
+} as Book;
 
 const Admin: React.FC<AdminProps> = () => {
   const [apiKey, setApiKey] = useState("");
@@ -72,6 +81,33 @@ const Admin: React.FC<AdminProps> = () => {
 
   const sortedBooks = books.sort((a, b) => (b.available ? 1 : -1));
   const hasApiKey = apiKey !== "";
+
+  const [open, setOpen] = useState(false);
+  const [editedBook, setEditedBook] = useState(emptyBook);
+
+  const handleClickOpen = (book: Book) => {
+    setEditedBook(book);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setEditedBook(emptyBook);
+  };
+
+  const handleSave = (book: Book) => {
+    setOpen(false);
+    setEditedBook(emptyBook);
+
+    setBooks(
+      books.map((b) => {
+        if (book.id === b.id) {
+          return book;
+        }
+        return b;
+      })
+    );
+  };
 
   return (
     <div style={{ height: "calc(100vh - 200px)" }}>
@@ -134,11 +170,21 @@ const Admin: React.FC<AdminProps> = () => {
                 <ImageListItemBar
                   title={book.name}
                   actionIcon={
-                    <IconButton
-                      sx={{ color: "rgba(255, 255, 255, 0.54)" }}
-                      // onClick={this.handleEdit(book)}
-                    >
-                      <InfoIcon />
+                    <IconButton sx={{ color: "rgba(255, 255, 255, 0.54)" }}>
+                      <Button
+                        variant="contained"
+                        onClick={() => {
+                          handleClickOpen(book);
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <AdminBookCard
+                        isOpen={open && book.name === editedBook.name}
+                        book={book}
+                        onClose={handleClose}
+                        onSave={handleSave}
+                      />
                     </IconButton>
                   }
                 />

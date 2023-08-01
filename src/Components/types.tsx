@@ -3,4 +3,5 @@ export interface Book {
   authors: string[];
   available: boolean;
   url: string;
+  id?: string;
 }
