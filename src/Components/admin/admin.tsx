@@ -36,6 +36,9 @@ const Admin: React.FC<AdminProps> = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [showApiKey, setShowApiKey] = useState(false);
 
+  const [open, setOpen] = useState(false);
+  const [editedBook, setEditedBook] = useState(emptyBook);
+
   function handleShowApiKey() {
     setShowApiKey(!showApiKey);
   }
@@ -79,11 +82,7 @@ const Admin: React.FC<AdminProps> = () => {
     fetchData();
   }, []);
 
-  const sortedBooks = books.sort((a, b) => (b.available ? 1 : -1));
   const hasApiKey = apiKey !== "";
-
-  const [open, setOpen] = useState(false);
-  const [editedBook, setEditedBook] = useState(emptyBook);
 
   const handleClickOpen = (book: Book) => {
     setEditedBook(book);
@@ -161,7 +160,7 @@ const Admin: React.FC<AdminProps> = () => {
 
         {/* Books */}
         <ImageList cols={3} gap={16} sx={{ height: "100%", width: "100%" }}>
-          {sortedBooks.map((book) => {
+          {books.map((book) => {
             return (
               <ImageListItem key={book.name}>
                 <img src={book.url} alt={book.name} loading="lazy" />

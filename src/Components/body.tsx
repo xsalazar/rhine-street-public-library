@@ -1,9 +1,15 @@
-import { Container, ListItemButton, ImageList } from "@mui/material";
+import {
+  Container,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
 
 import React from "react";
-import BookCard from "./bookCard";
 import { Book } from "./types";
+import { formatAuthors } from "../helpers/formatting";
 
 interface BodyProps {}
 
@@ -40,19 +46,57 @@ export default class Body extends React.Component<BodyProps, BodyState> {
           flexGrow: "2",
         }}
       >
-        <ImageList
-          sx={{ width: 800, height: 500 }}
-          gap={8}
-          cols={3}
-          rowHeight={265}
-          variant="woven"
-        >
-          {Array.from(sortedBooks).map((book, index) => (
+        <div style={{ height: "calc(100vh - 200px)" }}>
+          <Typography
+            variant="h4"
+            align="center"
+            sx={{ height: "1em", paddingBottom: "10px" }}
+          >
+            Rhine Street Public Library 📚
+          </Typography>
+          <ImageList cols={3} gap={24} sx={{ height: "100%", width: "100%" }}>
+            {sortedBooks.map((book) => {
+              return (
+                <ImageListItem
+                  key={book.url}
+                  sx={{
+                    backgroundColor: "black",
+                    color: "#575b6e",
+                    border: "6px solid #8080806e",
+                    height: "20px",
+                  }}
+                >
+                  <img src={book.url} alt={book.name} loading="lazy" />
+                  {!book.available && (
+                    <ImageListItemBar
+                      sx={{
+                        backgroundColor: "rgba(50, 50, 50, 0.75)",
+                        position: "absolute",
+                        top: "0",
+                        left: "0",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    />
+                  )}
+                  {/* Actions */}
+                  <ImageListItemBar
+                    sx={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+                    title={book.name}
+                    subtitle={formatAuthors(book.authors)}
+                  />
+                </ImageListItem>
+              );
+            })}
+          </ImageList>
+        </div>
+
+        {/* {Array.from(sortedBooks).map((book, index) => (
             <ListItemButton>
               <BookCard book={book} />
             </ListItemButton>
-          ))}
-        </ImageList>
+          ))} */}
+        {/* </ImageList> */}
       </Container>
     );
   }
