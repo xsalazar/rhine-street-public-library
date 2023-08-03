@@ -82,12 +82,9 @@ const Body: React.FC<BodyProps> = () => {
                 key={book.url}
                 sx={{
                   backgroundColor: "black",
-                  // color: "#575b6e",
-                  // border: "6px solid #8080806e",
                   aspectRatio: isMobile ? "1" : "auto",
                   p: 0.5,
                   position: "relative",
-                  // height: 256,
                 }}
               >
                 <img

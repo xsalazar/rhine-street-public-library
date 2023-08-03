@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { Book } from "../types";
 import { authorsToArray, formatAuthors } from "../../helpers/formatting";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface AdminBookCardProps {
   book: Book;
@@ -21,6 +21,7 @@ interface AdminBookCardProps {
   onClose: () => void;
   onSave: (book: Book) => void;
   isAvailable?: boolean;
+  newId: string;
 }
 const AdminBookCard: React.FC<AdminBookCardProps> = ({
   book,
@@ -28,11 +29,28 @@ const AdminBookCard: React.FC<AdminBookCardProps> = ({
   onClose,
   onSave,
   isAvailable,
+  newId,
 }) => {
   const [name, setName] = useState(book.name);
   const [authors, setAuthors] = useState(formatAuthors(book.authors));
   const [available, setAvailable] = useState(book.available);
   const [url, setUrl] = useState(book.url);
+  const [id, setId] = useState(newId || book.id);
+
+  useEffect(() => {
+    if (newId !== "") {
+      setName("");
+      setAuthors("");
+      setAvailable(true);
+      setUrl("");
+      setId(newId);
+    }
+  }, [newId]);
+
+  if (!isOpen) {
+    return null;
+  }
+
   const handleClose = () => {
     onClose();
   };
@@ -43,7 +61,7 @@ const AdminBookCard: React.FC<AdminBookCardProps> = ({
       authors: authorsToArray(authors),
       available,
       url,
-      id: book.id,
+      id,
     } as Book);
   };
 
@@ -55,12 +73,16 @@ const AdminBookCard: React.FC<AdminBookCardProps> = ({
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title">
-        {`Editing ${book.name}`}
+        {book.name ? `Editing ${book.name}` : "Add New Book"}
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
           <ImageListItem sx={{ height: "20px" }} key={url}>
-            <img src={url} loading="lazy" alt={url} />
+            <img
+              src={url || "https://i.imgur.com/HCz2t0S.png"}
+              loading="lazy"
+              alt={url}
+            />
           </ImageListItem>
 
           <Stack
@@ -77,7 +99,7 @@ const AdminBookCard: React.FC<AdminBookCardProps> = ({
               size="small"
               sx={{ flex: 1 }}
               onChange={(e) => setName(e.target.value)}
-              defaultValue={name}
+              defaultValue={book.name}
             />
           </Stack>
           <Stack
@@ -95,7 +117,7 @@ const AdminBookCard: React.FC<AdminBookCardProps> = ({
               size="small"
               sx={{ flex: 1 }}
               onChange={(e) => setAuthors(e.target.value)}
-              defaultValue={authors}
+              defaultValue={book.authors}
             />
           </Stack>
           <Stack

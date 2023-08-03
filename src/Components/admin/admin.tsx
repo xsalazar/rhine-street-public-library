@@ -24,15 +24,17 @@ import AdminBookCard from "./adminBookCard";
 import { CheckIcon } from "@primer/octicons-react";
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
-import { v4 as uuid } from "uuid";
+
+// import { v4 as uuid } from "uuid";
+import { v4 as uuidv4 } from "uuid";
+
 interface AdminProps {}
 
 const emptyBook = {
   name: "",
   authors: [],
-  available: false,
+  available: true,
   url: "",
-  id: uuid(),
 } as Book;
 
 const Admin: React.FC<AdminProps> = () => {
@@ -41,9 +43,10 @@ const Admin: React.FC<AdminProps> = () => {
   const [hasError, setHasError] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [showApiKey, setShowApiKey] = useState(false);
-
+  const [newId, setNewId] = useState("");
   const [open, setOpen] = useState(false);
   const [editedBook, setEditedBook] = useState(emptyBook);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
 
   function handleShowApiKey() {
     setShowApiKey(!showApiKey);
@@ -101,17 +104,18 @@ const Admin: React.FC<AdminProps> = () => {
   };
 
   const handleClose = () => {
+    setNewId("");
     setOpen(false);
   };
 
   const handleSave = (book: Book) => {
+    setNewId("");
     setOpen(false);
-
     const isNewBook = books.filter((b) => b.id === book.id).length === 0;
 
     if (isNewBook) {
       const replacementBooks = books.filter((b) => b.id !== book.id);
-      replacementBooks.push(book);
+      replacementBooks.unshift(book);
       setBooks(replacementBooks);
     } else {
       setBooks(
@@ -131,7 +135,6 @@ const Admin: React.FC<AdminProps> = () => {
       authors: book.authors,
       available: !book.available,
       url: book.url,
-
       id: book.id,
     } as Book;
     setBooks(
@@ -145,14 +148,21 @@ const Admin: React.FC<AdminProps> = () => {
   };
 
   const addNewBook = () => {
-    console.log("PLZZ OPEN");
+    setNewId(uuidv4());
     setEditedBook(emptyBook);
     setOpen(true);
   };
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
 
   return (
     <div style={{ height: "calc(100vh - 200px)" }}>
+      <AdminBookCard
+        isOpen={open && newId !== ""}
+        book={emptyBook}
+        onClose={handleClose}
+        onSave={handleSave}
+        isAvailable={true}
+        newId={newId}
+      />
       <Container
         maxWidth="md"
         sx={{
@@ -237,13 +247,6 @@ const Admin: React.FC<AdminProps> = () => {
               justifyItems: isMobile ? "center" : "left",
             }}
           >
-            {/* <AdminBookCard
-              isOpen={open && book.name === editedBook.name}
-              book={emptyBook}
-              onClose={handleClose}
-              onSave={handleSave}
-              isAvailable={false}
-            /> */}
             {books.map((book) => {
               return (
                 <ImageListItem key={book.name} sx={{ aspectRatio: "1" }}>
@@ -316,11 +319,12 @@ const Admin: React.FC<AdminProps> = () => {
                   />
 
                   <AdminBookCard
-                    isOpen={open && book.name === editedBook.name}
+                    isOpen={open && book.id === editedBook.id}
                     book={book}
                     onClose={handleClose}
                     onSave={handleSave}
                     isAvailable={book.available}
+                    newId={""}
                   />
                 </ImageListItem>
               );
