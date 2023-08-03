@@ -79,7 +79,10 @@ const AdminBookCard: React.FC<AdminBookCardProps> = ({
         <DialogContentText id="alert-dialog-description">
           <ImageListItem sx={{ height: "20px" }} key={url}>
             <img
-              src={url || "https://i.imgur.com/HCz2t0S.png"}
+              src={
+                url ||
+                "https://images.squarespace-cdn.com/content/50cf32ece4b07366e9267386/1573479458734-QHBFZ1IDCOANR4ABVO7M/happy_cow.jpg?format=1500w&content-type=image%2Fjpeg"
+              }
               loading="lazy"
               alt={url}
             />
@@ -100,6 +103,7 @@ const AdminBookCard: React.FC<AdminBookCardProps> = ({
               sx={{ flex: 1 }}
               onChange={(e) => setName(e.target.value)}
               defaultValue={book.name}
+              placeholder="Cows are Amazing"
             />
           </Stack>
           <Stack
@@ -118,6 +122,7 @@ const AdminBookCard: React.FC<AdminBookCardProps> = ({
               sx={{ flex: 1 }}
               onChange={(e) => setAuthors(e.target.value)}
               defaultValue={book.authors}
+              placeholder="Betsy Moovington"
             />
           </Stack>
           <Stack
@@ -152,6 +157,7 @@ const AdminBookCard: React.FC<AdminBookCardProps> = ({
               sx={{ flex: 1 }}
               onChange={(e) => setUrl(e.target.value)}
               defaultValue={book.url}
+              placeholder="https://cowsrcool.com/cow.png"
             />
           </Stack>
         </DialogContentText>
