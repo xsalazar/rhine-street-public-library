@@ -1,103 +1,124 @@
 import {
+  Box,
   Container,
-  ImageList,
   ImageListItem,
   ImageListItemBar,
   Typography,
 } from "@mui/material";
 import axios from "axios";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Book } from "./types";
 import { formatAuthors } from "../helpers/formatting";
 
 interface BodyProps {}
 
-interface BodyState {
-  books: Array<Book>;
-}
+const Body: React.FC<BodyProps> = () => {
+  const [books, setBooks] = useState([] as Book[]);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
 
-export default class Body extends React.Component<BodyProps, BodyState> {
-  constructor(props: BodyProps) {
-    super(props);
-    this.state = { books: [] };
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios.get(
+        `https://backend.rhinestreetpubliclibrary.com/`
+      );
+      setBooks(result.data.data);
+    };
+    fetchData();
 
-  async componentDidMount(): Promise<void> {
-    const result = (
-      await axios.get(`https://backend.rhinestreetpubliclibrary.com/`)
-    ).data;
+    function handleResize() {
+      setIsMobile(window.innerWidth < 600);
+    }
+    window.addEventListener("resize", handleResize);
+  }, []);
 
-    this.setState({
-      books: result.data,
-    });
-  }
+  const sortedBooks = books.sort((a, b) => (b.available ? 1 : -1));
 
-  render() {
-    const { books } = this.state;
-    const sortedBooks = books.sort((a, b) => (b.available ? 1 : -1));
-
-    return (
-      <Container
+  return (
+    <Container
+      maxWidth="md"
+      sx={{
+        alignItems: "center",
+        display: "flex",
+        flexDirection: "column",
+        flexGrow: "1",
+        justifyContent: "center",
+        mt: 1,
+        overflowY: "auto",
+      }}
+    >
+      <Typography variant="h3" sx={{}}>
+        Rhine Street Library
+      </Typography>
+      <Typography variant="subtitle1" sx={{ pb: 1 }}>
+        Your Neighborhood Lending Library
+      </Typography>
+      <Box
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexGrow: "2",
+          mt: 2,
+          flexGrow: "1",
+          overflowY: "scroll",
+          justifyItems: "center",
         }}
       >
-        <div style={{ height: "calc(100vh - 200px)" }}>
-          <Typography
-            variant="h4"
-            align="center"
-            sx={{ height: "1em", paddingBottom: "10px" }}
-          >
-            Rhine Street Public Library 📚
-          </Typography>
-          <ImageList cols={3} gap={24} sx={{ height: "100%", width: "100%" }}>
-            {sortedBooks.map((book) => {
-              return (
-                <ImageListItem
-                  key={book.url}
-                  sx={{
-                    backgroundColor: "black",
-                    color: "#575b6e",
-                    border: "6px solid #8080806e",
-                    height: "20px",
-                  }}
-                >
-                  <img src={book.url} alt={book.name} loading="lazy" />
-                  {!book.available && (
-                    <ImageListItemBar
-                      sx={{
-                        backgroundColor: "rgba(50, 50, 50, 0.75)",
-                        position: "absolute",
-                        top: "0",
-                        left: "0",
-                        width: "100%",
-                        height: "100%",
-                      }}
-                    />
-                  )}
-                  {/* Actions */}
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "repeat(1, 1fr)",
+              sm: "repeat(3, 1fr)",
+            },
+            gap: 2,
+          }}
+        >
+          {sortedBooks.map((book) => {
+            return (
+              <ImageListItem
+                key={book.url}
+                sx={{
+                  backgroundColor: "black",
+                  // color: "#575b6e",
+                  // border: "6px solid #8080806e",
+                  aspectRatio: isMobile ? "1" : "auto",
+                  p: 0.5,
+                  position: "relative",
+                  // height: 256,
+                }}
+              >
+                <img
+                  src={book.url}
+                  alt={book.name}
+                  style={{ objectFit: "cover" }}
+                  height={isMobile ? 300 : 500}
+                  width={300}
+                />
+                {!book.available && (
+                  <ImageListItemBar
+                    sx={{
+                      backgroundColor: "rgba(50, 50, 50, 0.75)",
+                      position: "absolute",
+                      top: "0",
+                      left: "0",
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  />
+                )}
+                {/* Actions */}
+                {!isMobile && (
                   <ImageListItemBar
                     sx={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
                     title={book.name}
                     subtitle={formatAuthors(book.authors)}
                   />
-                </ImageListItem>
-              );
-            })}
-          </ImageList>
-        </div>
+                )}
+              </ImageListItem>
+            );
+          })}
+        </Box>
+      </Box>
+    </Container>
+  );
+};
 
-        {/* {Array.from(sortedBooks).map((book, index) => (
-            <ListItemButton>
-              <BookCard book={book} />
-            </ListItemButton>
-          ))} */}
-        {/* </ImageList> */}
-      </Container>
-    );
-  }
-}
+export default Body;
