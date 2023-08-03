@@ -10,16 +10,21 @@ import {
   InputLabel,
   Snackbar,
   Stack,
-  ImageList,
   ImageListItem,
   ImageListItemBar,
+  Box,
   Button,
+  Backdrop,
 } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Close, Save, Visibility, VisibilityOff } from "@mui/icons-material";
 import AdminBookCard from "./adminBookCard";
-
+import { CheckIcon } from "@primer/octicons-react";
+import CloseIcon from "@mui/icons-material/Close";
+import AddIcon from "@mui/icons-material/Add";
+import { v4 as uuid } from "uuid";
 interface AdminProps {}
 
 const emptyBook = {
@@ -27,6 +32,7 @@ const emptyBook = {
   authors: [],
   available: false,
   url: "",
+  id: uuid(),
 } as Book;
 
 const Admin: React.FC<AdminProps> = () => {
@@ -80,6 +86,11 @@ const Admin: React.FC<AdminProps> = () => {
       setBooks(result.data.data);
     };
     fetchData();
+
+    function handleResize() {
+      setIsMobile(window.innerWidth < 600);
+    }
+    window.addEventListener("resize", handleResize);
   }, []);
 
   const hasApiKey = apiKey !== "";
@@ -91,22 +102,54 @@ const Admin: React.FC<AdminProps> = () => {
 
   const handleClose = () => {
     setOpen(false);
-    setEditedBook(emptyBook);
   };
 
   const handleSave = (book: Book) => {
     setOpen(false);
-    setEditedBook(emptyBook);
 
+    const isNewBook = books.filter((b) => b.id === book.id).length === 0;
+
+    if (isNewBook) {
+      const replacementBooks = books.filter((b) => b.id !== book.id);
+      replacementBooks.push(book);
+      setBooks(replacementBooks);
+    } else {
+      setBooks(
+        books.map((b) => {
+          if (book.id === b.id) {
+            return book;
+          }
+          return b;
+        })
+      );
+    }
+  };
+
+  const flipAvailable = (book: Book) => {
+    const newBook = {
+      name: book.name,
+      authors: book.authors,
+      available: !book.available,
+      url: book.url,
+
+      id: book.id,
+    } as Book;
     setBooks(
       books.map((b) => {
         if (book.id === b.id) {
-          return book;
+          return newBook;
         }
         return b;
       })
     );
   };
+
+  const addNewBook = () => {
+    console.log("PLZZ OPEN");
+    setEditedBook(emptyBook);
+    setOpen(true);
+  };
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
 
   return (
     <div style={{ height: "calc(100vh - 200px)" }}>
@@ -145,6 +188,23 @@ const Admin: React.FC<AdminProps> = () => {
             }
           />
 
+          {isMobile ? (
+            <Button variant="contained" color="success" onClick={addNewBook}>
+              <AddIcon />
+            </Button>
+          ) : (
+            <LoadingButton
+              startIcon={<AddIcon />}
+              loading={isSaving}
+              loadingPosition="start"
+              onClick={addNewBook}
+              variant="contained"
+              color="success"
+              sx={{ margin: 0 }}
+            >
+              Add Book
+            </LoadingButton>
+          )}
           {/* Save Button */}
           <LoadingButton
             disabled={!hasApiKey}
@@ -158,39 +218,115 @@ const Admin: React.FC<AdminProps> = () => {
           </LoadingButton>
         </Stack>
 
-        {/* Books */}
-        <ImageList cols={3} gap={16} sx={{ height: "100%", width: "100%" }}>
-          {books.map((book) => {
-            return (
-              <ImageListItem key={book.name}>
-                <img src={book.url} alt={book.name} loading="lazy" />
+        <Box
+          sx={{
+            mt: 2,
+            flexGrow: "1",
+            overflowY: "scroll",
+            justifyItems: "center",
+          }}
+        >
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "repeat(1, 1fr)",
+                sm: "repeat(3, 1fr)",
+              },
+              gap: 2,
+              justifyItems: isMobile ? "center" : "left",
+            }}
+          >
+            {/* <AdminBookCard
+              isOpen={open && book.name === editedBook.name}
+              book={emptyBook}
+              onClose={handleClose}
+              onSave={handleSave}
+              isAvailable={false}
+            /> */}
+            {books.map((book) => {
+              return (
+                <ImageListItem key={book.name} sx={{ aspectRatio: "1" }}>
+                  <img
+                    src={book.url}
+                    alt={book.name}
+                    loading="lazy"
+                    style={{ objectFit: "cover" }}
+                    height={300}
+                    width={300}
+                  />
 
-                {/* Actions */}
-                <ImageListItemBar
-                  title={book.name}
-                  actionIcon={
-                    <IconButton sx={{ color: "rgba(255, 255, 255, 0.54)" }}>
-                      <Button
-                        variant="contained"
+                  <Backdrop
+                    sx={{
+                      position: "absolute",
+                      backgroundColor: book.available
+                        ? "rgba(50, 50, 50, 0.0)"
+                        : "rgba(50, 50, 50, 0.75)",
+                      color: "#fff",
+                      justifyContent: "end",
+                      marginTop: 0,
+                    }}
+                    open={true}
+                  >
+                    <IconButton
+                      aria-label="edit"
+                      size="large"
+                      color="info"
+                      sx={{
+                        position: "absolute",
+                        top: 0,
+                        right: 0,
+                        height: 30,
+                        width: 30,
+                        mt: 1,
+                        mr: 1,
+                        backgroundColor: book.available
+                          ? "rgba(92, 116, 87)"
+                          : "rgba(136, 41, 47)",
+                        color: "rgba(255, 255, 255, 0.9)",
+                        borderRadius: 10,
+
+                        border: "2px solid rgba(240, 247, 238)",
+                      }}
+                      onClick={() => {
+                        flipAvailable(book);
+                      }}
+                    >
+                      {book.available ? <CheckIcon /> : <CloseIcon />}
+                    </IconButton>
+                  </Backdrop>
+
+                  {/* Actions */}
+                  <ImageListItemBar
+                    title={book.name}
+                    actionIcon={
+                      <IconButton
+                        aria-label="edit"
+                        size="large"
+                        sx={{
+                          color: "rgba(255, 255, 255, 0.9)",
+                        }}
                         onClick={() => {
                           handleClickOpen(book);
                         }}
                       >
-                        Edit
-                      </Button>
-                      <AdminBookCard
-                        isOpen={open && book.name === editedBook.name}
-                        book={book}
-                        onClose={handleClose}
-                        onSave={handleSave}
-                      />
-                    </IconButton>
-                  }
-                />
-              </ImageListItem>
-            );
-          })}
-        </ImageList>
+                        <EditIcon fontSize="small" />
+                      </IconButton>
+                    }
+                  />
+
+                  <AdminBookCard
+                    isOpen={open && book.name === editedBook.name}
+                    book={book}
+                    onClose={handleClose}
+                    onSave={handleSave}
+                    isAvailable={book.available}
+                  />
+                </ImageListItem>
+              );
+            })}
+          </Box>
+        </Box>
       </Container>
 
       {/* Error Toast */}

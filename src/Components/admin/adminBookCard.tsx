@@ -20,12 +20,14 @@ interface AdminBookCardProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (book: Book) => void;
+  isAvailable?: boolean;
 }
 const AdminBookCard: React.FC<AdminBookCardProps> = ({
   book,
   isOpen,
   onClose,
   onSave,
+  isAvailable,
 }) => {
   const [name, setName] = useState(book.name);
   const [authors, setAuthors] = useState(formatAuthors(book.authors));
@@ -107,7 +109,7 @@ const AdminBookCard: React.FC<AdminBookCardProps> = ({
             {/* API Key */}
             <InputLabel>Available:</InputLabel>
             <Checkbox
-              defaultChecked={available}
+              defaultChecked={isAvailable}
               onChange={(e) => {
                 return setAvailable(e.target.checked);
               }}

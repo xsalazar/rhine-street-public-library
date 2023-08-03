@@ -32,7 +32,8 @@ const Body: React.FC<BodyProps> = () => {
     window.addEventListener("resize", handleResize);
   }, []);
 
-  const sortedBooks = books.sort((a, b) => (b.available ? 1 : -1));
+  const availableBooks = books.filter((a) => a.available);
+  const unavailableBooks = books.filter((a) => !a.available);
 
   return (
     <Container
@@ -69,9 +70,62 @@ const Body: React.FC<BodyProps> = () => {
               sm: "repeat(3, 1fr)",
             },
             gap: 2,
+            justifyItems: isMobile ? "center" : "left",
           }}
         >
-          {sortedBooks.map((book) => {
+          <ImageListItem key={"available"} cols={isMobile ? 1 : 3}>
+            <Typography variant="h6">Available:</Typography>
+          </ImageListItem>
+          {availableBooks.map((book) => {
+            return (
+              <ImageListItem
+                key={book.url}
+                sx={{
+                  backgroundColor: "black",
+                  // color: "#575b6e",
+                  // border: "6px solid #8080806e",
+                  aspectRatio: isMobile ? "1" : "auto",
+                  p: 0.5,
+                  position: "relative",
+                  // height: 256,
+                }}
+              >
+                <img
+                  src={book.url}
+                  alt={book.name}
+                  style={{ objectFit: "cover" }}
+                  height={isMobile ? 300 : 500}
+                  width={300}
+                />
+                {!book.available && (
+                  <ImageListItemBar
+                    sx={{
+                      backgroundColor: "rgba(50, 50, 50, 0.75)",
+                      position: "absolute",
+                      top: "0",
+                      left: "0",
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  />
+                )}
+                {/* Actions */}
+                {!isMobile && (
+                  <ImageListItemBar
+                    sx={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+                    title={book.name}
+                    subtitle={formatAuthors(book.authors)}
+                  />
+                )}
+              </ImageListItem>
+            );
+          })}
+          <ImageListItem key={"available"} cols={isMobile ? 1 : 3}>
+            <Typography variant="h6" sx={{ pt: 1 }}>
+              Checked out:
+            </Typography>
+          </ImageListItem>
+          {unavailableBooks.map((book) => {
             return (
               <ImageListItem
                 key={book.url}
