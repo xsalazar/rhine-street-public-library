@@ -63,7 +63,7 @@ const Body: React.FC<BodyProps> = () => {
         overflowY: "auto",
       }}
     >
-      <Typography variant={isMobile ? "h5" : "h3"} sx={{}}>
+      <Typography align="center" variant={isMobile ? "h4" : "h3"}>
         Rhine Street Library
       </Typography>
       <Typography variant="subtitle1" sx={{ pb: 1 }}>
