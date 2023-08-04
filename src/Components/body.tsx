@@ -4,6 +4,8 @@ import {
   ImageListItem,
   ImageListItemBar,
   Typography,
+  Backdrop,
+  Stack,
 } from "@mui/material";
 import axios from "axios";
 
@@ -16,6 +18,9 @@ interface BodyProps {}
 const Body: React.FC<BodyProps> = () => {
   const [books, setBooks] = useState([] as Book[]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
+  const [isMobileModalOpen, setIsMobileModalOpen] = useState(false);
+
+  const [selectedBookId, setSelectedBookId] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,6 +36,16 @@ const Body: React.FC<BodyProps> = () => {
     }
     window.addEventListener("resize", handleResize);
   }, []);
+
+  const openMobileModal = (id: string) => {
+    setIsMobileModalOpen(true);
+    setSelectedBookId(id);
+  };
+
+  const closeMobileModal = () => {
+    setIsMobileModalOpen(false);
+    setSelectedBookId("");
+  };
 
   const availableBooks = books.filter((a) => a.available);
   const unavailableBooks = books.filter((a) => !a.available);
@@ -48,7 +63,7 @@ const Body: React.FC<BodyProps> = () => {
         overflowY: "auto",
       }}
     >
-      <Typography variant="h3" sx={{}}>
+      <Typography variant={isMobile ? "h5" : "h3"} sx={{}}>
         Rhine Street Library
       </Typography>
       <Typography variant="subtitle1" sx={{ pb: 1 }}>
@@ -87,25 +102,35 @@ const Body: React.FC<BodyProps> = () => {
                   position: "relative",
                 }}
               >
+                <Backdrop
+                  sx={{
+                    position: "absolute",
+                    color: "#fff",
+                    backgroundColor: "rgba(0, 0, 0, 0.8)",
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                  }}
+                  open={isMobileModalOpen && selectedBookId === book.id}
+                  onClick={closeMobileModal}
+                >
+                  <Stack direction="column" alignItems="center" spacing={1}>
+                    <Typography variant="h4" align="center" sx={{ pb: 2 }}>
+                      {book.name}
+                    </Typography>
+                    <Typography variant="h6" align="center">
+                      {formatAuthors(book.authors)}
+                    </Typography>
+                  </Stack>
+                </Backdrop>
                 <img
                   src={book.url}
                   alt={book.name}
                   style={{ objectFit: "cover" }}
                   height={isMobile ? 300 : 500}
                   width={300}
+                  onClick={() =>
+                    isMobile ? openMobileModal(book.id || "") : null
+                  }
                 />
-                {!book.available && (
-                  <ImageListItemBar
-                    sx={{
-                      backgroundColor: "rgba(50, 50, 50, 0.75)",
-                      position: "absolute",
-                      top: "0",
-                      left: "0",
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  />
-                )}
                 {/* Actions */}
                 {!isMobile && (
                   <ImageListItemBar
@@ -128,14 +153,29 @@ const Body: React.FC<BodyProps> = () => {
                 key={book.url}
                 sx={{
                   backgroundColor: "black",
-                  // color: "#575b6e",
-                  // border: "6px solid #8080806e",
                   aspectRatio: isMobile ? "1" : "auto",
                   p: 0.5,
                   position: "relative",
-                  // height: 256,
                 }}
               >
+                <Backdrop
+                  sx={{
+                    position: "absolute",
+                    color: "#fff",
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                  }}
+                  open={isMobileModalOpen && selectedBookId === book.id}
+                  onClick={closeMobileModal}
+                >
+                  <Stack direction="column" alignItems="center" spacing={1}>
+                    <Typography variant="h4" align="center" sx={{ pb: 2 }}>
+                      {book.name}
+                    </Typography>
+                    <Typography variant="h6" align="center">
+                      {formatAuthors(book.authors)}
+                    </Typography>
+                  </Stack>
+                </Backdrop>
                 <img
                   src={book.url}
                   alt={book.name}
@@ -143,18 +183,20 @@ const Body: React.FC<BodyProps> = () => {
                   height={isMobile ? 300 : 500}
                   width={300}
                 />
-                {!book.available && (
-                  <ImageListItemBar
-                    sx={{
-                      backgroundColor: "rgba(50, 50, 50, 0.75)",
-                      position: "absolute",
-                      top: "0",
-                      left: "0",
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  />
-                )}
+                <ImageListItemBar
+                  sx={{
+                    backgroundColor: "rgba(50, 50, 50, 0.75)",
+                    position: "absolute",
+                    top: "0",
+                    left: "0",
+                    width: "100%",
+                    height: "100%",
+                  }}
+                  onClick={() =>
+                    isMobile ? openMobileModal(book.id || "") : null
+                  }
+                />
+
                 {/* Actions */}
                 {!isMobile && (
                   <ImageListItemBar
