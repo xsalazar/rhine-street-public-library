@@ -1,5 +1,5 @@
-import Footer from "./Components/footer";
 import Body from "./Components/body";
+import { Box } from "@mui/material";
 
 function App() {
   return (
@@ -12,7 +12,8 @@ function App() {
       }}
     >
       <Body />
-      <Footer />
+      <Box component="footer" sx={{ py: 2 }}></Box>
+      {/* <Footer /> */}
     </div>
   );
 }

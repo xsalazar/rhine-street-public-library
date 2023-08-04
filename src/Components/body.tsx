@@ -81,14 +81,14 @@ const Body: React.FC<BodyProps> = () => {
           sx={{
             display: "grid",
             gridTemplateColumns: {
-              xs: "repeat(1, 1fr)",
+              xs: "repeat(2, 1fr)",
               sm: "repeat(3, 1fr)",
             },
             gap: 2,
             justifyItems: isMobile ? "center" : "left",
           }}
         >
-          <ImageListItem key={"available"} cols={isMobile ? 1 : 3}>
+          <ImageListItem key={"available"} cols={isMobile ? 2 : 3}>
             <Typography variant="h6">Available:</Typography>
           </ImageListItem>
           {availableBooks.map((book) => {
@@ -113,10 +113,14 @@ const Body: React.FC<BodyProps> = () => {
                   onClick={closeMobileModal}
                 >
                   <Stack direction="column" alignItems="center" spacing={1}>
-                    <Typography variant="h4" align="center" sx={{ pb: 2 }}>
+                    <Typography
+                      variant="h5"
+                      align="center"
+                      sx={{ pb: 1, mr: 1.5, ml: 1.5 }}
+                    >
                       {book.name}
                     </Typography>
-                    <Typography variant="h6" align="center">
+                    <Typography variant="subtitle1" align="center">
                       {formatAuthors(book.authors)}
                     </Typography>
                   </Stack>
@@ -125,8 +129,9 @@ const Body: React.FC<BodyProps> = () => {
                   src={book.url}
                   alt={book.name}
                   style={{ objectFit: "cover" }}
-                  height={isMobile ? 300 : 500}
+                  height={isMobile ? 200 : 500}
                   width={300}
+                  loading="lazy"
                   onClick={() =>
                     isMobile ? openMobileModal(book.id || "") : null
                   }
@@ -142,7 +147,7 @@ const Body: React.FC<BodyProps> = () => {
               </ImageListItem>
             );
           })}
-          <ImageListItem key={"available"} cols={isMobile ? 1 : 3}>
+          <ImageListItem key={"available"} cols={isMobile ? 2 : 3}>
             <Typography variant="h6" sx={{ pt: 1 }}>
               Checked out:
             </Typography>
@@ -168,10 +173,14 @@ const Body: React.FC<BodyProps> = () => {
                   onClick={closeMobileModal}
                 >
                   <Stack direction="column" alignItems="center" spacing={1}>
-                    <Typography variant="h4" align="center" sx={{ pb: 2 }}>
+                    <Typography
+                      variant="h5"
+                      align="center"
+                      sx={{ pb: 1, mr: 1.5, ml: 1.5 }}
+                    >
                       {book.name}
                     </Typography>
-                    <Typography variant="h6" align="center">
+                    <Typography variant="subtitle1" align="center">
                       {formatAuthors(book.authors)}
                     </Typography>
                   </Stack>
@@ -182,6 +191,7 @@ const Body: React.FC<BodyProps> = () => {
                   style={{ objectFit: "cover" }}
                   height={isMobile ? 300 : 500}
                   width={300}
+                  loading="lazy"
                 />
                 <ImageListItemBar
                   sx={{
