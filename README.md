@@ -1,6 +1,6 @@
-# 💡 Project Template
+# 📚 Rhine Street Public Library
 
-💡 Template repository used to bootstrap Typescript React projects with GitHub Actions CI/CD and VSCode devcontainer support.
+This repository contains the source code for the website [https://rhinestreetpubliclibrary.com](https://rhinestreetpubliclibrary.com).
 
 ## Getting Started
 
