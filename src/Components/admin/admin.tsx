@@ -28,7 +28,7 @@ import AddIcon from "@mui/icons-material/Add";
 // import { v4 as uuid } from "uuid";
 import { v4 as uuidv4 } from "uuid";
 
-interface AdminProps {}
+interface AdminProps { }
 
 const emptyBook = {
   name: "",

@@ -12,8 +12,7 @@ function App() {
       }}
     >
       <Body />
-      <Box component="footer" sx={{ py: 2 }}></Box>
-      {/* <Footer /> */}
+      <Box component="footer" sx={{ py: 2 }} />
     </div>
   );
 }

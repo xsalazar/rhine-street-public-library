@@ -2,21 +2,21 @@ import {
   Box,
   Container,
   ImageListItem,
-  ImageListItemBar,
   Typography,
-  Backdrop,
-  Stack,
 } from "@mui/material";
 import axios from "axios";
 
 import React, { useEffect, useState } from "react";
 import { Book } from "./types";
-import { formatAuthors } from "../helpers/formatting";
+import LoadingCard from "./bookCard/loadingCard";
+import BookCard from "./bookCard/bookCard";
 
-interface BodyProps {}
+interface BodyProps { }
 
 const Body: React.FC<BodyProps> = () => {
-  const [books, setBooks] = useState([] as Book[]);
+  const [availableBooks, setAvailableBooks] = useState([] as Book[]);
+  const [unavailableBooks, setUnAvailableBooks] = useState([] as Book[]);
+  const [loading, setLoading] = useState(true)
   const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
   const [isMobileModalOpen, setIsMobileModalOpen] = useState(false);
 
@@ -25,30 +25,37 @@ const Body: React.FC<BodyProps> = () => {
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios.get(
-        `https://backend.rhinestreetpubliclibrary.com/`
+        `https://backend.rhinestreetpubliclibrary.com/`,
+        {
+          headers: {
+            "Cache-Control": "max-age=31536000",
+          },
+        }
       );
-      setBooks(result.data.data);
+      const books = result.data.data as Book[]
+      setAvailableBooks(books.filter((a) => a.available))
+      setUnAvailableBooks(books.filter((a) => !a.available))
+      setLoading(false)
     };
     fetchData();
 
     function handleResize() {
       setIsMobile(window.innerWidth < 600);
+      setIsMobileModalOpen(false);
     }
     window.addEventListener("resize", handleResize);
   }, []);
 
-  const openMobileModal = (id: string) => {
-    setIsMobileModalOpen(true);
-    setSelectedBookId(id);
+
+  const toggleModal = (id: string) => {
+    if (id !== selectedBookId) {
+      setSelectedBookId(id);
+      setIsMobileModalOpen(true);
+    } else {
+      setIsMobileModalOpen(!isMobileModalOpen);
+    }
   };
 
-  const closeMobileModal = () => {
-    setIsMobileModalOpen(false);
-    setSelectedBookId("");
-  };
-
-  const availableBooks = books.filter((a) => a.available);
-  const unavailableBooks = books.filter((a) => !a.available);
 
   return (
     <Container
@@ -69,6 +76,7 @@ const Body: React.FC<BodyProps> = () => {
       <Typography variant="subtitle1" sx={{ pb: 1 }}>
         Your Neighborhood Lending Library
       </Typography>
+
       <Box
         sx={{
           mt: 2,
@@ -88,140 +96,39 @@ const Body: React.FC<BodyProps> = () => {
             justifyItems: isMobile ? "center" : "left",
           }}
         >
-          <ImageListItem key={"available"} cols={isMobile ? 2 : 3}>
+          <ImageListItem key={"available-header"} cols={isMobile ? 2 : 3}>
             <Typography variant="h6">Available:</Typography>
           </ImageListItem>
-          {availableBooks.map((book) => {
+
+          {loading &&
+            [1, 2, 3, 4, 5, 6, 7, 8, 9].map((v) => {
+              return (
+                <LoadingCard isMobile={isMobile} index={v} />
+              )
+            })
+          }
+          {availableBooks && availableBooks.map((book) => {
             return (
-              <ImageListItem
-                key={book.url}
-                sx={{
-                  backgroundColor: "black",
-                  aspectRatio: isMobile ? "1" : "auto",
-                  p: 0.5,
-                  position: "relative",
-                }}
-              >
-                <Backdrop
-                  sx={{
-                    position: "absolute",
-                    color: "#fff",
-                    backgroundColor: "rgba(0, 0, 0, 0.8)",
-                    zIndex: (theme) => theme.zIndex.drawer + 1,
-                  }}
-                  open={isMobileModalOpen && selectedBookId === book.id}
-                  onClick={closeMobileModal}
-                >
-                  <Stack direction="column" alignItems="center" spacing={1}>
-                    <Typography
-                      variant="h5"
-                      align="center"
-                      sx={{ pb: 1, mr: 1.5, ml: 1.5 }}
-                    >
-                      {book.name}
-                    </Typography>
-                    <Typography variant="subtitle1" align="center">
-                      {formatAuthors(book.authors)}
-                    </Typography>
-                  </Stack>
-                </Backdrop>
-                <img
-                  src={book.url}
-                  alt={book.name}
-                  style={{ objectFit: "cover" }}
-                  height={isMobile ? 200 : 500}
-                  width={300}
-                  loading="lazy"
-                  onClick={() =>
-                    isMobile ? openMobileModal(book.id || "") : null
-                  }
-                />
-                {/* Actions */}
-                {!isMobile && (
-                  <ImageListItemBar
-                    sx={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
-                    title={book.name}
-                    subtitle={formatAuthors(book.authors)}
-                  />
-                )}
-              </ImageListItem>
+              <BookCard book={book} isMobile={isMobile} isModalOpen={isMobileModalOpen && selectedBookId === book.id} toggleModal={toggleModal} />
             );
           })}
-          <ImageListItem key={"available"} cols={isMobile ? 2 : 3}>
+
+          <ImageListItem key={`checked-out-header`} cols={isMobile ? 2 : 3}>
             <Typography variant="h6" sx={{ pt: 1 }}>
               Checked out:
             </Typography>
           </ImageListItem>
+
           {unavailableBooks.map((book) => {
             return (
-              <ImageListItem
-                key={book.url}
-                sx={{
-                  backgroundColor: "black",
-                  aspectRatio: isMobile ? "1" : "auto",
-                  p: 0.5,
-                  position: "relative",
-                }}
-              >
-                <Backdrop
-                  sx={{
-                    position: "absolute",
-                    color: "#fff",
-                    zIndex: (theme) => theme.zIndex.drawer + 1,
-                  }}
-                  open={isMobileModalOpen && selectedBookId === book.id}
-                  onClick={closeMobileModal}
-                >
-                  <Stack direction="column" alignItems="center" spacing={1}>
-                    <Typography
-                      variant="h5"
-                      align="center"
-                      sx={{ pb: 1, mr: 1.5, ml: 1.5 }}
-                    >
-                      {book.name}
-                    </Typography>
-                    <Typography variant="subtitle1" align="center">
-                      {formatAuthors(book.authors)}
-                    </Typography>
-                  </Stack>
-                </Backdrop>
-                <img
-                  src={book.url}
-                  alt={book.name}
-                  style={{ objectFit: "cover" }}
-                  height={isMobile ? 300 : 500}
-                  width={300}
-                  loading="lazy"
-                />
-                <ImageListItemBar
-                  sx={{
-                    backgroundColor: "rgba(50, 50, 50, 0.75)",
-                    position: "absolute",
-                    top: "0",
-                    left: "0",
-                    width: "100%",
-                    height: "100%",
-                  }}
-                  onClick={() =>
-                    isMobile ? openMobileModal(book.id || "") : null
-                  }
-                />
-
-                {/* Actions */}
-                {!isMobile && (
-                  <ImageListItemBar
-                    sx={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
-                    title={book.name}
-                    subtitle={formatAuthors(book.authors)}
-                  />
-                )}
-              </ImageListItem>
+              <BookCard book={book} isMobile={isMobile} isModalOpen={isMobileModalOpen && selectedBookId === book.id} toggleModal={toggleModal} isUnavailable />
             );
           })}
         </Box>
       </Box>
     </Container>
   );
+
 };
 
 export default Body;
