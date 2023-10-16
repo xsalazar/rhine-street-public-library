@@ -1,9 +1,4 @@
-import {
-  Box,
-  Container,
-  ImageListItem,
-  Typography,
-} from "@mui/material";
+import { Box, Container, ImageListItem, Typography } from "@mui/material";
 import axios from "axios";
 
 import React, { useEffect, useState } from "react";
@@ -11,14 +6,22 @@ import { Book } from "./types";
 import LoadingCard from "./bookCard/loadingCard";
 import BookCard from "./bookCard/bookCard";
 
-interface BodyProps { }
+const MIN_IMAGES_LOADED = 6;
+
+interface BodyProps {}
 
 const Body: React.FC<BodyProps> = () => {
   const [availableBooks, setAvailableBooks] = useState([] as Book[]);
+
+  const [visibleAvailableBooks, setVisibleAvailableBooks] = useState(
+    [] as Book[]
+  );
   const [unavailableBooks, setUnAvailableBooks] = useState([] as Book[]);
-  const [loading, setLoading] = useState(true)
+  // const [loading, setLoading] = useState(true)
   const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
   const [isMobileModalOpen, setIsMobileModalOpen] = useState(false);
+
+  const [visibleImagesLoaded, setVisibleImagesLoaded] = useState(0);
 
   const [selectedBookId, setSelectedBookId] = useState("");
 
@@ -32,10 +35,15 @@ const Body: React.FC<BodyProps> = () => {
           },
         }
       );
-      const books = result.data.data as Book[]
-      setAvailableBooks(books.filter((a) => a.available))
-      setUnAvailableBooks(books.filter((a) => !a.available))
-      setLoading(false)
+      const books = result.data.data as Book[];
+
+      const availableBooksArray = books.filter((a) => a.available);
+      setVisibleAvailableBooks(availableBooksArray.slice(0, 9));
+      setAvailableBooks(
+        availableBooksArray.slice(9, availableBooksArray.length)
+      );
+      setUnAvailableBooks(books.filter((a) => !a.available));
+      // setLoading(false)
     };
     fetchData();
 
@@ -46,6 +54,9 @@ const Body: React.FC<BodyProps> = () => {
     window.addEventListener("resize", handleResize);
   }, []);
 
+  const imageLoaded = (id: string) => {
+    setVisibleImagesLoaded(visibleImagesLoaded + 1);
+  };
 
   const toggleModal = (id: string) => {
     if (id !== selectedBookId) {
@@ -55,7 +66,6 @@ const Body: React.FC<BodyProps> = () => {
       setIsMobileModalOpen(!isMobileModalOpen);
     }
   };
-
 
   return (
     <Container
@@ -100,18 +110,33 @@ const Body: React.FC<BodyProps> = () => {
             <Typography variant="h6">Available:</Typography>
           </ImageListItem>
 
-          {loading &&
+          {visibleImagesLoaded < MIN_IMAGES_LOADED &&
             [1, 2, 3, 4, 5, 6, 7, 8, 9].map((v) => {
+              return <LoadingCard isMobile={isMobile} index={v} />;
+            })}
+          {visibleAvailableBooks &&
+            visibleAvailableBooks.map((book) => {
               return (
-                <LoadingCard isMobile={isMobile} index={v} />
-              )
-            })
-          }
-          {availableBooks && availableBooks.map((book) => {
-            return (
-              <BookCard book={book} isMobile={isMobile} isModalOpen={isMobileModalOpen && selectedBookId === book.id} toggleModal={toggleModal} />
-            );
-          })}
+                <BookCard
+                  onLoad={imageLoaded}
+                  book={book}
+                  isMobile={isMobile}
+                  isModalOpen={isMobileModalOpen && selectedBookId === book.id}
+                  toggleModal={toggleModal}
+                />
+              );
+            })}
+          {availableBooks &&
+            availableBooks.map((book) => {
+              return (
+                <BookCard
+                  book={book}
+                  isMobile={isMobile}
+                  isModalOpen={isMobileModalOpen && selectedBookId === book.id}
+                  toggleModal={toggleModal}
+                />
+              );
+            })}
 
           <ImageListItem key={`checked-out-header`} cols={isMobile ? 2 : 3}>
             <Typography variant="h6" sx={{ pt: 1 }}>
@@ -121,14 +146,19 @@ const Body: React.FC<BodyProps> = () => {
 
           {unavailableBooks.map((book) => {
             return (
-              <BookCard book={book} isMobile={isMobile} isModalOpen={isMobileModalOpen && selectedBookId === book.id} toggleModal={toggleModal} isUnavailable />
+              <BookCard
+                book={book}
+                isMobile={isMobile}
+                isModalOpen={isMobileModalOpen && selectedBookId === book.id}
+                toggleModal={toggleModal}
+                isUnavailable
+              />
             );
           })}
         </Box>
       </Box>
     </Container>
   );
-
 };
 
 export default Body;
