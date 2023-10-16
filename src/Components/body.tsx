@@ -43,9 +43,12 @@ const Body: React.FC<BodyProps> = () => {
         availableBooksArray.slice(9, availableBooksArray.length)
       );
       setUnAvailableBooks(books.filter((a) => !a.available));
-      // setLoading(false)
     };
     fetchData();
+
+    setTimeout(function () {
+      setVisibleImagesLoaded(MIN_IMAGES_LOADED);
+    }, 1500);
 
     function handleResize() {
       setIsMobile(window.innerWidth < 600);
@@ -55,7 +58,9 @@ const Body: React.FC<BodyProps> = () => {
   }, []);
 
   const imageLoaded = (id: string) => {
-    setVisibleImagesLoaded(visibleImagesLoaded + 1);
+    if (visibleImagesLoaded < MIN_IMAGES_LOADED) {
+      setVisibleImagesLoaded(visibleImagesLoaded + 1);
+    }
   };
 
   const toggleModal = (id: string) => {
