@@ -1,8 +1,7 @@
-import { Chip } from "@mui/material";
-import React from "react";
+import Chip from "@mui/material/Chip";
 import "./index.css";
 
-const StatusCard: React.FC<{ available: boolean }> = ({ available }) => {
+export default function StatusCard({ available }: { available: boolean }) {
   return (
     <div className="statusContainer">
       <Chip
@@ -12,6 +11,4 @@ const StatusCard: React.FC<{ available: boolean }> = ({ available }) => {
       />
     </div>
   );
-};
-
-export default StatusCard;
+}

@@ -1,34 +1,28 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-
-import { Book } from "../types";
-import {
-  Container,
-  IconButton,
-  Input,
-  InputAdornment,
-  InputLabel,
-  Snackbar,
-  Stack,
-  ImageListItem,
-  ImageListItemBar,
-  Box,
-  Button,
-  Backdrop,
-} from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-
-import LoadingButton from "@mui/lab/LoadingButton";
 import { Close, Save, Visibility, VisibilityOff } from "@mui/icons-material";
-import AdminBookCard from "./adminBookCard";
-import { CheckIcon } from "@primer/octicons-react";
-import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
-
-// import { v4 as uuid } from "uuid";
+import CloseIcon from "@mui/icons-material/Close";
+import EditIcon from "@mui/icons-material/Edit";
+import {
+  default as Button,
+  default as LoadingButton,
+} from "@mui/lab/LoadingButton";
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import ImageListItem from "@mui/material/ImageListItem";
+import ImageListItemBar from "@mui/material/ImageListItemBar";
+import Input from "@mui/material/Input";
+import InputAdornment from "@mui/material/InputAdornment";
+import InputLabel from "@mui/material/InputLabel";
+import Snackbar from "@mui/material/Snackbar";
+import Stack from "@mui/material/Stack";
+import { CheckIcon } from "@primer/octicons-react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-
-interface AdminProps { }
+import { Book } from "../types";
+import AdminBookCard from "./adminBookCard";
 
 const emptyBook = {
   name: "",
@@ -37,7 +31,7 @@ const emptyBook = {
   url: "",
 } as Book;
 
-const Admin: React.FC<AdminProps> = () => {
+export default function Admin() {
   const [apiKey, setApiKey] = useState("");
   const [books, setBooks] = useState([] as Book[]);
   const [hasError, setHasError] = useState(false);
@@ -352,6 +346,4 @@ const Admin: React.FC<AdminProps> = () => {
       />
     </div>
   );
-};
-
-export default Admin;
+}

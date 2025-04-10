@@ -1,19 +1,17 @@
-import {
-  Button,
-  Checkbox,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  ImageListItem,
-  Input,
-  InputLabel,
-  Stack,
-} from "@mui/material";
-import { Book } from "../types";
-import { authorsToArray, formatAuthors } from "../../helpers/formatting";
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import ImageListItem from "@mui/material/ImageListItem";
+import Input from "@mui/material/Input";
+import InputLabel from "@mui/material/InputLabel";
+import Stack from "@mui/material/Stack";
 import { useEffect, useState } from "react";
+import { authorsToArray, formatAuthors } from "../../helpers/formatting";
+import { Book } from "../types";
 
 interface AdminBookCardProps {
   book: Book;
@@ -23,14 +21,14 @@ interface AdminBookCardProps {
   isAvailable?: boolean;
   newId: string;
 }
-const AdminBookCard: React.FC<AdminBookCardProps> = ({
+export default function AdminBookCard({
   book,
   isOpen,
   onClose,
   onSave,
   isAvailable,
   newId,
-}) => {
+}: AdminBookCardProps) {
   const [name, setName] = useState(book.name);
   const [authors, setAuthors] = useState(formatAuthors(book.authors));
   const [available, setAvailable] = useState(book.available);
@@ -170,6 +168,4 @@ const AdminBookCard: React.FC<AdminBookCardProps> = ({
       </DialogActions>
     </Dialog>
   );
-};
-
-export default AdminBookCard;
+}

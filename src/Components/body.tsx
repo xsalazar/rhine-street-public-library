@@ -1,16 +1,16 @@
-import { Box, Container, ImageListItem, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import ImageListItem from "@mui/material/ImageListItem";
+import Typography from "@mui/material/Typography";
 import axios from "axios";
-
-import React, { useEffect, useState } from "react";
-import { Book } from "./types";
-import LoadingCard from "./bookCard/loadingCard";
+import { useEffect, useState } from "react";
 import BookCard from "./bookCard/bookCard";
+import LoadingCard from "./bookCard/loadingCard";
+import { Book } from "./types";
 
 const MIN_IMAGES_LOADED = 6;
 
-interface BodyProps {}
-
-const Body: React.FC<BodyProps> = () => {
+export default function Body() {
   const [availableBooks, setAvailableBooks] = useState([] as Book[]);
 
   const [visibleAvailableBooks, setVisibleAvailableBooks] = useState(
@@ -164,6 +164,4 @@ const Body: React.FC<BodyProps> = () => {
       </Box>
     </Container>
   );
-};
-
-export default Body;
+}

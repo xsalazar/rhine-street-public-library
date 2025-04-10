@@ -1,10 +1,13 @@
-import { ImageListItem, Skeleton } from "@mui/material";
-import React from "react";
+import ImageListItem from "@mui/material/ImageListItem";
+import Skeleton from "@mui/material/Skeleton";
 
-const LoadingCard: React.FC<{
+export default function LoadingCard({
+  isMobile,
+  index,
+}: {
   isMobile: boolean;
   index: number;
-}> = ({ isMobile, index }) => {
+}) {
   return (
     <ImageListItem
       key={`loading-card-${index}`}
@@ -21,6 +24,4 @@ const LoadingCard: React.FC<{
       />
     </ImageListItem>
   );
-};
-
-export default LoadingCard;
+}

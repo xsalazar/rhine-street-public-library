@@ -1,31 +1,26 @@
-import {
-  Typography,
-  ImageListItem,
-  Backdrop,
-  ImageListItemBar,
-  Stack,
-} from "@mui/material";
-
-import React from "react";
+import Backdrop from "@mui/material/Backdrop";
+import ImageListItem from "@mui/material/ImageListItem";
+import ImageListItemBar from "@mui/material/ImageListItemBar";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import { formatAuthors } from "../../helpers/formatting";
 import { Book } from "../types";
 
-import { formatAuthors } from "../../helpers/formatting";
-
-const BookCard: React.FC<{
-  book: Book;
-  isMobile: boolean;
-  isModalOpen: boolean;
-  toggleModal: (id: string) => void;
-  isUnavailable?: boolean;
-  onLoad?: (id: string) => void;
-}> = ({
+export default function BookCard({
   book,
   isMobile,
   isModalOpen = false,
   toggleModal,
   isUnavailable = false,
   onLoad,
-}) => {
+}: {
+  book: Book;
+  isMobile: boolean;
+  isModalOpen: boolean;
+  toggleModal: (id: string) => void;
+  isUnavailable?: boolean;
+  onLoad?: (id: string) => void;
+}) {
   const toggleMobileModal = () => {
     toggleModal?.(book.id || "");
   };
@@ -104,6 +99,4 @@ const BookCard: React.FC<{
       )}
     </ImageListItem>
   );
-};
-
-export default BookCard;
+}
