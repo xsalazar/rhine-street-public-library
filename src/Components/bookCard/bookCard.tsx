@@ -3,8 +3,8 @@ import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { formatAuthors } from "../../helpers/formatting";
-import { Book } from "../types";
+import { formatAuthors } from "../../helpers/formatting.js";
+import { Book } from "../types.js";
 
 export default function BookCard({
   book,

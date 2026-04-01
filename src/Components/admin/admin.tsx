@@ -2,10 +2,7 @@ import { Close, Save, Visibility, VisibilityOff } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
-import {
-  default as Button,
-  default as LoadingButton,
-} from "@mui/lab/LoadingButton";
+import { Button } from "@mui/material";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -21,8 +18,8 @@ import { CheckIcon } from "@primer/octicons-react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Book } from "../types";
-import AdminBookCard from "./adminBookCard";
+import { Book } from "../types.js";
+import AdminBookCard from "./adminBookCard.js";
 
 const emptyBook = {
   name: "",
@@ -197,7 +194,7 @@ export default function Admin() {
               <AddIcon />
             </Button>
           ) : (
-            <LoadingButton
+            <Button
               startIcon={<AddIcon />}
               loading={isSaving}
               loadingPosition="start"
@@ -207,10 +204,10 @@ export default function Admin() {
               sx={{ margin: 0 }}
             >
               Add Book
-            </LoadingButton>
+            </Button>
           )}
           {/* Save Button */}
-          <LoadingButton
+          <Button
             disabled={!hasApiKey}
             startIcon={<Save />}
             loading={isSaving}
@@ -219,7 +216,7 @@ export default function Admin() {
             variant="contained"
           >
             Save Changes
-          </LoadingButton>
+          </Button>
         </Stack>
 
         <Box

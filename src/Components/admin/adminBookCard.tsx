@@ -10,8 +10,8 @@ import Input from "@mui/material/Input";
 import InputLabel from "@mui/material/InputLabel";
 import Stack from "@mui/material/Stack";
 import { useEffect, useState } from "react";
-import { authorsToArray, formatAuthors } from "../../helpers/formatting";
-import { Book } from "../types";
+import { authorsToArray, formatAuthors } from "../../helpers/formatting.js";
+import { Book } from "../types.js";
 
 interface AdminBookCardProps {
   book: Book;

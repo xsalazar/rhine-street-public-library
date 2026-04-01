@@ -4,9 +4,9 @@ import ImageListItem from "@mui/material/ImageListItem";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import BookCard from "./bookCard/bookCard";
-import LoadingCard from "./bookCard/loadingCard";
-import { Book } from "./types";
+import BookCard from "./bookCard/bookCard.js";
+import LoadingCard from "./bookCard/loadingCard.js";
+import { Book } from "./types.js";
 
 const MIN_IMAGES_LOADED = 6;
 

@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import Body from "./Components/body";
+import Body from "./Components/body.js";
 
 export default function App() {
   return (
