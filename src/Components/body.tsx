@@ -1,167 +1,143 @@
-import Box from "@mui/material/Box";
+import { MapOutlined, OpenInNew } from "@mui/icons-material";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
 import Container from "@mui/material/Container";
-import ImageListItem from "@mui/material/ImageListItem";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
+import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import BookCard from "./bookCard/bookCard.js";
-import LoadingCard from "./bookCard/loadingCard.js";
-import { Book } from "./types.js";
-
-const MIN_IMAGES_LOADED = 6;
+import movieMadness from "../assets/movie-madness.png";
+import multCoLib from "../assets/multco-lib.png";
+import musicMillennium from "../assets/music-millennium.png";
+import varietyRecords from "../assets/variety-records.png";
 
 export default function Body() {
-  const [availableBooks, setAvailableBooks] = useState([] as Book[]);
-
-  const [visibleAvailableBooks, setVisibleAvailableBooks] = useState(
-    [] as Book[]
-  );
-  const [unavailableBooks, setUnAvailableBooks] = useState([] as Book[]);
-  // const [loading, setLoading] = useState(true)
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
-  const [isMobileModalOpen, setIsMobileModalOpen] = useState(false);
-
-  const [visibleImagesLoaded, setVisibleImagesLoaded] = useState(0);
-
-  const [selectedBookId, setSelectedBookId] = useState("");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios.get(
-        `https://backend.rhinestreetpubliclibrary.com/`,
-        {
-          headers: {
-            "Cache-Control": "max-age=31536000",
-          },
-        }
-      );
-      const books = result.data.data as Book[];
-
-      const availableBooksArray = books.filter((a) => a.available);
-      setVisibleAvailableBooks(availableBooksArray.slice(0, 9));
-      setAvailableBooks(
-        availableBooksArray.slice(9, availableBooksArray.length)
-      );
-      setUnAvailableBooks(books.filter((a) => !a.available));
-    };
-    fetchData();
-
-    setTimeout(function () {
-      setVisibleImagesLoaded(MIN_IMAGES_LOADED);
-    }, 1500);
-
-    function handleResize() {
-      setIsMobile(window.innerWidth < 600);
-      setIsMobileModalOpen(false);
-    }
-    window.addEventListener("resize", handleResize);
-  }, []);
-
-  const imageLoaded = (id: string) => {
-    if (visibleImagesLoaded < MIN_IMAGES_LOADED) {
-      setVisibleImagesLoaded(visibleImagesLoaded + 1);
-    }
-  };
-
-  const toggleModal = (id: string) => {
-    if (id !== selectedBookId) {
-      setSelectedBookId(id);
-      setIsMobileModalOpen(true);
-    } else {
-      setIsMobileModalOpen(!isMobileModalOpen);
-    }
-  };
-
+  const localStores: Array<{
+    description: string;
+    name: string;
+    image: string;
+    link?: string;
+    address?: string;
+  }> = [
+    {
+      address: "4320 SE Belmont St, Portland, OR 97215",
+      description:
+        "Portland’s iconic independent video store, with 95,000+ rental titles and counting. Plus beer & wine, a film prop museum, a Miniplex, merch, & more!",
+      name: "Movie Madness",
+      image: movieMadness,
+      link: "https://www.moviemadness.org/",
+    },
+    {
+      address: "3158 E Burnside, Portland, OR 97214",
+      description:
+        "The oldest record store in existence in the Pacific Northwest. Stocked with the ever-evolving gamut of formats including LP, 45, reel-to-reel, 8-track, cassette, DAT, compact disc, mini-disc, DCC and CD-ROM.",
+      name: "Music Millennium",
+      image: musicMillennium,
+      link: "https://musicmillennium.com/",
+    },
+    {
+      address: "4932 SE Foster Rd, Portland, OR 97206",
+      description:
+        "Operating since 2005, Variety Records has a large selection of vinyl records, rare and hard to find DVDs, VHS, CDs, and cassette tapes. Open daily, with the occasional sidewalk sale outside, weather permitting.",
+      name: "Variety Records",
+      image: varietyRecords,
+    },
+    {
+      description:
+        "Multnomah County Library is the oldest public library on the west coast, with a history that dates back to 1864. Today, Central Library and 18 other neighborhood libraries make up a library system that offers more than 3.1 million books and other library materials. As Oregon's largest public library, Multnomah County Library serves nearly one-fifth of the state's population.",
+      name: "Multnomah County Public Library",
+      image: multCoLib,
+      link: "https://multcolib.org/",
+    },
+  ];
   return (
     <Container
       maxWidth="md"
       sx={{
         alignItems: "center",
         display: "flex",
+        flex: "auto",
         flexDirection: "column",
-        flexGrow: "1",
         justifyContent: "center",
-        mt: 1,
-        overflowY: "auto",
+        marginTop: 4,
       }}
     >
-      <Typography align="center" variant={isMobile ? "h4" : "h3"}>
-        Rhine Street Library
-      </Typography>
-      <Typography variant="subtitle1" sx={{ pb: 1 }}>
-        Your Neighborhood Lending Library
+      <Typography variant="h5" align="center">
+        Rhine Street Public Library
       </Typography>
 
-      <Box
-        sx={{
-          mt: 2,
-          flexGrow: "1",
-          overflowY: "scroll",
-          justifyItems: "center",
-        }}
-      >
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: {
-              xs: "repeat(2, 1fr)",
-              sm: "repeat(3, 1fr)",
-            },
-            gap: 2,
-            justifyItems: isMobile ? "center" : "left",
-          }}
-        >
-          <ImageListItem key={"available-header"} cols={isMobile ? 2 : 3}>
-            <Typography variant="h6">Available:</Typography>
-          </ImageListItem>
+      <Typography variant="body1" color="textSecondary" align="center" pb={8}>
+        Your neighborhood stop for physical media
+      </Typography>
 
-          {visibleImagesLoaded < MIN_IMAGES_LOADED &&
-            [1, 2, 3, 4, 5, 6, 7, 8, 9].map((v) => {
-              return <LoadingCard isMobile={isMobile} index={v} />;
-            })}
-          {visibleAvailableBooks &&
-            visibleAvailableBooks.map((book) => {
-              return (
-                <BookCard
-                  onLoad={imageLoaded}
-                  book={book}
-                  isMobile={isMobile}
-                  isModalOpen={isMobileModalOpen && selectedBookId === book.id}
-                  toggleModal={toggleModal}
-                />
-              );
-            })}
-          {availableBooks &&
-            availableBooks.map((book) => {
-              return (
-                <BookCard
-                  book={book}
-                  isMobile={isMobile}
-                  isModalOpen={isMobileModalOpen && selectedBookId === book.id}
-                  toggleModal={toggleModal}
-                />
-              );
-            })}
+      <Container>
+        <Typography variant="body1" gutterBottom>
+          Consider supporting the following local businesses:
+        </Typography>
 
-          <ImageListItem key={`checked-out-header`} cols={isMobile ? 2 : 3}>
-            <Typography variant="h6" sx={{ pt: 1 }}>
-              Checked out:
-            </Typography>
-          </ImageListItem>
-
-          {unavailableBooks.map((book) => {
+        <Grid container spacing={2}>
+          {localStores.map((store) => {
             return (
-              <BookCard
-                book={book}
-                isMobile={isMobile}
-                isModalOpen={isMobileModalOpen && selectedBookId === book.id}
-                toggleModal={toggleModal}
-                isUnavailable
-              />
+              <Grid size={{ sm: 12, md: 6 }}>
+                <Card
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  {/* Image */}
+                  <CardMedia sx={{ height: 140 }} image={store.image} />
+
+                  {/* Title, description, and optional info */}
+                  <CardContent
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    {/* Title */}
+                    <Typography variant="h5" gutterBottom>
+                      {store.name}
+                    </Typography>
+
+                    {/* Description */}
+                    <Typography variant="body2" gutterBottom>
+                      {store.description}
+                    </Typography>
+
+                    {/* Link */}
+                    {store.link && (
+                      <Stack direction="row" spacing={1}>
+                        <OpenInNew fontSize="small" />
+                        <Typography variant="caption">
+                          <Link
+                            href={`${store.link}`}
+                            target="_blank"
+                            rel="noopener"
+                          >
+                            {store.link}
+                          </Link>
+                        </Typography>
+                      </Stack>
+                    )}
+
+                    {/* Address */}
+                    {store.address && (
+                      <Stack direction="row" spacing={1}>
+                        <MapOutlined fontSize="small" />
+                        <Typography variant="caption">
+                          {store.address}
+                        </Typography>
+                      </Stack>
+                    )}
+                  </CardContent>
+                </Card>
+              </Grid>
             );
           })}
-        </Box>
-      </Box>
+        </Grid>
+      </Container>
     </Container>
   );
 }
