@@ -66,11 +66,11 @@ export default function Body() {
       <Typography variant="h5" align="center">
         Rhine Street Public Library
       </Typography>
-
-      <Typography variant="body1" color="textSecondary" align="center" pb={8}>
+      <Typography variant="body1" color="textSecondary" align="center" sx={{
+        pb: 8
+      }}>
         Your neighborhood stop for physical media
       </Typography>
-
       <Container>
         <Typography variant="body1" gutterBottom>
           Consider supporting the following local businesses:
